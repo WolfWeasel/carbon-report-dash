@@ -6,7 +6,7 @@ import carbonData from './data/MockEmissionsData.json';
 import DatePicker from 'react-datepicker';
 
 import "react-datepicker/dist/react-datepicker.css";
-import CarbonStatus from './components/CarbonStatus';
+import CarbonStatus from './components/CarbonStatus/CarbonStatus';
 
 
 function App() {
@@ -16,6 +16,7 @@ function App() {
 
   function generateReport() {
     console.log('Report generated');
+    console.log(startDate, endDate);
   }
 
   return (
@@ -40,7 +41,7 @@ function App() {
       </div>
 
       <div className='emissionIndication'>
-        <CarbonStatus />
+        <CarbonStatus data={carbonData}/>
       </div>
     </div>
   );
