@@ -18,14 +18,26 @@ function Graph(prop) {
     const carbonData = prop.data;
 
    let barState = {
-        labels: [carbonData.map((data) => data.date)],
+        labels: [...carbonData.map((data) => data.date)],
         datasets: [
             {
                 label: 'CO',
-                backgroundColor: 'green',
-                borderColor: 'yellow',
-                borderWidth: 1,
-                data: [carbonData.map((data) => data.amount)]
+                backgroundColor: 'blue',
+                borderColor: 'blue',
+                borderWidth: 2,
+                data: [...carbonData.map((data) => {
+                    if(data.gas === 'CO') return data.amount
+                    // return data.gas === 'CO' ? data.amount : null
+                })]
+            },
+            {
+                label: 'CO2',
+                backgroundColor: 'red',
+                borderColor: 'red',
+                borderWidth: 2,
+                data: [...carbonData.map((data) => {
+                    if(data.gas === 'CO2') return data.amount
+                })]
             }
         ]
     }
