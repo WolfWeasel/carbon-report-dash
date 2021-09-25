@@ -1,4 +1,4 @@
-import { Bar } from 'react-chartjs-2';
+import { Bar } from "react-chartjs-2";
 
 // const state = {
 //     labels: ['January', 'February', 'March',
@@ -14,51 +14,57 @@ import { Bar } from 'react-chartjs-2';
 //     ]
 //   }
 
+const options = {
+  scales: {
+    yAxes: [
+      {
+        ticks: {
+          beginAtZero: true,
+        },
+      },
+    ],
+  },
+  title: {
+    display: true,
+    text: "Gas Emmissions per day",
+    fontSize: 20,
+  },
+  legend: {
+    display: true,
+    position: "right",
+  },
+};
+
 function Graph(prop) {
-    const carbonData = prop.data;
+  const carbonData = prop.data;
 
-   let barState = {
-        labels: [...carbonData.map((data) => data.date)],
-        datasets: [
-            {
-                label: 'CO',
-                backgroundColor: 'blue',
-                borderColor: 'blue',
-                borderWidth: 2,
-                data: [...carbonData.map((data) => {
-                    if(data.gas === 'CO') return data.amount
-                    // return data.gas === 'CO' ? data.amount : null
-                })]
-            },
-            {
-                label: 'CO2',
-                backgroundColor: 'red',
-                borderColor: 'red',
-                borderWidth: 2,
-                data: [...carbonData.map((data) => {
-                    if(data.gas === 'CO2') return data.amount
-                })]
-            }
-        ]
-    }
+  let barState = {
+    labels: [...new Set(carbonData.map((data) => data.date))],
+    datasets: [
+      {
+        label: "CO",
+        backgroundColor: "blue",
+        data: [
+          ...carbonData.map((data) => {
+            if (data.gas === "CO") return data.amount;
+            return null;
+          }),
+        ],
+      },
+      {
+        label: "CO2",
+        backgroundColor: "red",
+        data: [
+          ...carbonData.map((data) => {
+            if (data.gas === "CO2") return data.amount;
+            return null;
+          }),
+        ],
+      },
+    ],
+  };
 
-
-    return (
-        <Bar
-             data={barState}
-          options={{
-            title:{
-              display:true,
-              text:'Gas Emmissions per day',
-              fontSize:20
-            },
-            legend:{
-              display:true,
-              position:'right'
-            }
-          }}
-        />
-    );
+  return <Bar data={barState} options={options} />;
 }
 
 export default Graph;

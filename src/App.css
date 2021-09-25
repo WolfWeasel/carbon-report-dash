@@ -5,6 +5,11 @@
   align-items: center;
 }
 
+.dateSelect {
+  display: flex;
+  flex-direction: row;
+}
+
 .graphBox {
   /* height: 60%; */
   width: 50%;
