@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Carbon Gas Emmissions Report Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a dashboard that keeps track of Carbon Monoxide and Carbon Dioxide ratings of a company.
 
 ## Available Scripts
 
