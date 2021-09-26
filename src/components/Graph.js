@@ -8,9 +8,6 @@ const drawLine = {
       var xAxe = chart.scales['x'];
       var yAxe = chart.scales[chart.config.options.scales.yAxes.id];
 
-      // I'm not good at maths
-      // So I couldn't find a way to make it work ...
-      // ... without having the `min` property set to 0
       if (yAxe.min !== 0) return;
         
       ctxPlugin.lineWidth = 2;

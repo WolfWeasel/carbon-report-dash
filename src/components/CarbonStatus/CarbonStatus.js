@@ -12,8 +12,8 @@ import React, { useState } from "react";
 // }
 
 function CarbonStatus(props) {
-  const [monoxide, setMonoxideState] = useState(0);
-  const [dioxide, setDioxideState] = useState(0);
+  const [monoxide, setMonoxideState] = useState(0.3);
+  const [dioxide, setDioxideState] = useState(0.2);
 
   function avg(props) {
     let monCount = 0;
@@ -39,13 +39,14 @@ function CarbonStatus(props) {
     <div>
       <h1>Carbon status:</h1>
       <div className="status">
-        {monoxide}
-        {dioxide}
-        <h2>CO: {monoxide <= 0.1 ? 'Low' : monoxide >= 0.25 ? 'Close' : 'High'}</h2>
-        <h2>CO2: {monoxide <= 0.1 ? 'Low' : monoxide >= 0.25 ? 'Close' : 'High'}</h2>
+        <h2>
+          CO: {monoxide < 0.1 ? "Low" : monoxide <= 0.25 ? "High" : monoxide > 0.25 ? 'Critial' : ''}
+        </h2>
+        <h2>
+          CO2: {dioxide < 0.1 ? "Low" : dioxide >= 0.25 ? "High" : dioxide > 0.25 ? 'Critial' : ''}
+        </h2>
       </div>
     </div>
   );
-
 }
 export default CarbonStatus;
