@@ -41,8 +41,8 @@ function CarbonStatus(props) {
       <div className="status">
         {monoxide}
         {dioxide}
-        <h2>CO: Critical</h2>
-        <h2>CO2: High</h2>
+        <h2>CO: {monoxide <= 0.1 ? 'Low' : monoxide >= 0.25 ? 'Close' : 'High'}</h2>
+        <h2>CO2: {monoxide <= 0.1 ? 'Low' : monoxide >= 0.25 ? 'Close' : 'High'}</h2>
       </div>
     </div>
   );

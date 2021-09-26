@@ -1,44 +1,49 @@
+import { useRef } from "react";
 import { Bar } from "react-chartjs-2";
 
-// const state = {
-//     labels: ['January', 'February', 'March',
-//              'April', 'May'],
-//     datasets: [
-//       {
-//         label: 'Rainfall',
-//         backgroundColor: 'rgba(75,192,192,1)',
-//         borderColor: 'rgba(0,0,0,1)',
-//         borderWidth: 2,
-//         data: [65, 59, 80, 81, 56]
-//       }
-//     ]
-//   }
+const drawLine = {
+  afterDraw: function (chart) {
+    console.log(chart);
+    if (typeof chart.config.options.lineAt != "undefined") {
+      var lineAt = chart.config.options.lineAt;
+      var ctxPlugin = chart.ctx;
+      var xAxe = chart.scales['x'];
+      var yAxe = chart.scales[chart.config.options.scales.yAxes.id];
+      console.log(xAxe);
 
-const options = {
-  scales: {
-    yAxes: [
-      {
-        ticks: {
-          beginAtZero: true,
-        },
-      },
-    ],
-  },
-  title: {
-    display: true,
-    text: "Gas Emmissions per day",
-    fontSize: 20,
-  },
-  legend: {
-    display: true,
-    position: "right",
+      // I'm not good at maths
+      // So I couldn't find a way to make it work ...
+      // ... without having the `min` property set to 0
+      if (yAxe.min !== 0) return;
+
+      ctxPlugin.strokeStyle = "red";
+      ctxPlugin.beginPath();
+      lineAt = (lineAt - yAxe.min) * (100 / yAxe.max);
+      lineAt = ((100 - lineAt) / 100) * yAxe.height + yAxe.top;
+      ctxPlugin.moveTo(xAxe.left, lineAt);
+      ctxPlugin.lineTo(xAxe.right, lineAt);
+      ctxPlugin.stroke();
+    }
   },
 };
 
-function Graph(prop) {
-  const carbonData = prop.data;
+const options = {
+  lineAt: 0.25,
+  scales: {
+    yAxes: [{
+        ticks: {
+            min: 0
+        }
+    }]
+},
+};
 
-  let barState = {
+function Graph(prop) {
+  const ref = useRef();
+  const carbonData = prop.data;
+  console.log(ref);
+
+  let barData = {
     labels: [...new Set(carbonData.map((data) => data.date))],
     datasets: [
       {
@@ -46,25 +51,29 @@ function Graph(prop) {
         backgroundColor: "blue",
         data: [
           ...carbonData.map((data) => {
-            if (data.gas === "CO") return data.amount;
+            if (data.gas === "CO") return parseFloat(data.amount);
             return null;
           }),
-        ],
+        ].filter((n) => n),
       },
       {
         label: "CO2",
         backgroundColor: "red",
         data: [
-          ...carbonData.map((data) => {
-            if (data.gas === "CO2") return data.amount;
-            return null;
-          }),
+          ...carbonData
+            .map((data) => {
+              if (data.gas === "CO2") return parseFloat(data.amount);
+              return null;
+            })
+            .filter((n) => n),
         ],
       },
     ],
   };
 
-  return <Bar data={barState} options={options} />;
+  return (
+    <Bar data={barData} ref={ref} options={options} plugins={[drawLine]} />
+  );
 }
 
 export default Graph;
