@@ -1,21 +1,19 @@
-import { useRef } from "react";
 import { Bar } from "react-chartjs-2";
 
 const drawLine = {
   afterDraw: function (chart) {
-    console.log(chart);
     if (typeof chart.config.options.lineAt != "undefined") {
       var lineAt = chart.config.options.lineAt;
       var ctxPlugin = chart.ctx;
       var xAxe = chart.scales['x'];
       var yAxe = chart.scales[chart.config.options.scales.yAxes.id];
-      console.log(xAxe);
 
       // I'm not good at maths
       // So I couldn't find a way to make it work ...
       // ... without having the `min` property set to 0
       if (yAxe.min !== 0) return;
-
+        
+      ctxPlugin.lineWidth = 2;
       ctxPlugin.strokeStyle = "red";
       ctxPlugin.beginPath();
       lineAt = (lineAt - yAxe.min) * (100 / yAxe.max);
@@ -39,16 +37,14 @@ const options = {
 };
 
 function Graph(prop) {
-  const ref = useRef();
   const carbonData = prop.data;
-  console.log(ref);
 
   let barData = {
     labels: [...new Set(carbonData.map((data) => data.date))],
     datasets: [
       {
         label: "CO",
-        backgroundColor: "blue",
+        backgroundColor: "rgb(81,77,203)",
         data: [
           ...carbonData.map((data) => {
             if (data.gas === "CO") return parseFloat(data.amount);
@@ -57,8 +53,8 @@ function Graph(prop) {
         ].filter((n) => n),
       },
       {
-        label: "CO2",
-        backgroundColor: "red",
+        label: "CO-2",
+        backgroundColor: "rgb(208,67,19)",
         data: [
           ...carbonData
             .map((data) => {
@@ -72,7 +68,7 @@ function Graph(prop) {
   };
 
   return (
-    <Bar data={barData} ref={ref} options={options} plugins={[drawLine]} />
+    <Bar data={barData} options={options} plugins={[drawLine]} />
   );
 }
 
