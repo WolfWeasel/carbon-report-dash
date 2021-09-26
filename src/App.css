@@ -5,9 +5,19 @@
   align-items: center;
 }
 
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .dateSelect {
   display: flex;
   flex-direction: row;
+  align-items: center;
+}
+
+.mar-left {
+  margin-left: 10px;
 }
 
 .graphBox {
@@ -18,4 +28,30 @@
 .tableBox {
   margin-top: 30px;
   height: 50%;
+}
+
+.btn {
+  font: inherit;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: #800040;
+  color: white;
+  border: 1px solid #800040;
+  margin: 0 1rem;
+}
+
+.btn:hover {
+  background-color: #9c1458;
+  border-color: #9c1458;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }

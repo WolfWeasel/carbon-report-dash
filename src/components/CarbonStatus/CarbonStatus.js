@@ -1,25 +1,19 @@
 import "./CarbonStatus.css";
-import React, { useState } from "react";
+// import React, { useState } from "react";
 
 // This component monitors the carbon status of the selected period
 // The statuses are: Low, High, Critical
 
-// class CarbonStatus extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         avg(props);
-//     }
-// }
-
 function CarbonStatus(props) {
-  const [monoxide, setMonoxideState] = useState(0.3);
-  const [dioxide, setDioxideState] = useState(0.2);
+
+  let mono = 0;
+  let di = 0;
 
   function avg(props) {
     let monCount = 0;
-    let mono = 0;
+    mono = 0;
     let diCount = 0;
-    let di = 0;
+    di = 0;
     props.data.forEach((element) => {
       if (element.gas === "CO") {
         monCount++;
@@ -29,21 +23,34 @@ function CarbonStatus(props) {
         di = di + parseFloat(element.amount);
       }
     });
-    console.log(mono / monCount);
-    console.log(di / diCount);
-    // setMonoxideState(mono / monCount);
-    // setDioxideState(di / diCount);
+    mono = mono/ monCount;
+    di =di/ diCount;
   }
   avg(props);
+
   return (
-    <div>
-      <h1>Carbon status:</h1>
-      <div className="status">
+    <div className="status">
+      <h1>Carbon level status:</h1>
+      <div className="stats">
         <h2>
-          CO: {monoxide < 0.1 ? "Low" : monoxide <= 0.25 ? "High" : monoxide > 0.25 ? 'Critial' : ''}
+          CO:{" "}
+          {mono < 0.2
+            ? "Low"
+            : mono <= 0.29
+            ? "High"
+            : mono >= 0.3
+            ? "Critical"
+            : ""}
         </h2>
         <h2>
-          CO2: {dioxide < 0.1 ? "Low" : dioxide >= 0.25 ? "High" : dioxide > 0.25 ? 'Critial' : ''}
+          CO-2:{" "}
+          {di < 0.2
+            ? "Low"
+            : di <= 0.29
+            ? "High"
+            : di >= 0.3
+            ? "Critical"
+            : ""}
         </h2>
       </div>
     </div>

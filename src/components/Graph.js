@@ -1,15 +1,17 @@
+import { useState } from "react";
 import { Bar } from "react-chartjs-2";
+
 
 const drawLine = {
   afterDraw: function (chart) {
     if (typeof chart.config.options.lineAt != "undefined") {
       var lineAt = chart.config.options.lineAt;
       var ctxPlugin = chart.ctx;
-      var xAxe = chart.scales['x'];
+      var xAxe = chart.scales[chart.config.options.scales.xAxes.id];
       var yAxe = chart.scales[chart.config.options.scales.yAxes.id];
 
       if (yAxe.min !== 0) return;
-        
+
       ctxPlugin.lineWidth = 2;
       ctxPlugin.strokeStyle = "red";
       ctxPlugin.beginPath();
@@ -25,16 +27,31 @@ const drawLine = {
 const options = {
   lineAt: 0.25,
   scales: {
-    yAxes: [{
+    xAxes: [
+      {
+        scaleLabel: {
+          display: true,
+          labelString: "Amount",
+        },
+      },
+    ],
+    yAxes: [
+      {
+        scaleLabel: {
+          display: true,
+          labelString: "Days",
+        },
         ticks: {
-            min: 0
-        }
-    }]
-},
+          min: 0,
+        },
+      },
+    ],
+  },
 };
 
 function Graph(prop) {
-  const carbonData = prop.data;
+  const [carbonData, setdata] = useState(prop.data);
+//   const carbonData = prop.data;
 
   let barData = {
     labels: [...new Set(carbonData.map((data) => data.date))],
@@ -64,9 +81,7 @@ function Graph(prop) {
     ],
   };
 
-  return (
-    <Bar data={barData} options={options} plugins={[drawLine]} />
-  );
+  return <Bar data={barData} options={options} plugins={[drawLine]} />;
 }
 
 export default Graph;

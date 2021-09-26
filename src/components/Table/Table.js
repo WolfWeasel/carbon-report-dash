@@ -80,7 +80,7 @@ const useSortableData = (items, config = null) => {
         </thead>
         <tbody>
           {items.map((item, index) => (
-            <tr className='tableRow' key={index}>
+            <tr className={`tableRow ${item.amount < 0.2 ? "low" : item.amount >= 0.2 && item.amount <= 0.3 ? "high" : "critical"}`} key={index}>
               <td>{item.date}</td>
               <td>{item.gas}</td>
               <td>{item.amount}</td>
