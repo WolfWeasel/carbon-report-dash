@@ -1,6 +1,6 @@
 import "./App.css";
 import React from "react";
-import Graph from "./components/Graph";
+import Graph from "./components/Graph/Graph";
 import Table from "./components/Table/Table";
 import carbonData from "./data/MockEmissionsData.json";
 import DatePicker from "react-datepicker";
